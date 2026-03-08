@@ -29,7 +29,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-stone-200/60 bg-white/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
           className="text-xl font-bold tracking-tight text-blue-600"
@@ -77,22 +77,10 @@ export default function Header() {
             )}
           </div>
           <Link
-            href="/packs"
-            className="text-sm font-medium text-stone-700 transition-colors hover:text-stone-900"
-          >
-            Productos
-          </Link>
-          <Link
-            href="/#como-funciona"
+            href="/como-funciona"
             className="text-sm font-medium text-stone-700 transition-colors hover:text-stone-900"
           >
             Cómo funciona
-          </Link>
-          <Link
-            href="/#como-funciona"
-            className="text-sm font-medium text-stone-700 transition-colors hover:text-stone-900"
-          >
-            Casos reales
           </Link>
           <Link
             href="/contacto"

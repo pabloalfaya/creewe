@@ -133,7 +133,7 @@ export default function Footer() {
             <ul className="mt-6 space-y-3">
               <li>
                 <Link
-                  href="/#como-funciona"
+                  href="/como-funciona"
                   className="text-sm text-stone-300 transition-colors hover:text-white"
                 >
                   Sobre nosotros
@@ -141,7 +141,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#como-funciona"
+                  href="/como-funciona"
                   className="text-sm text-stone-300 transition-colors hover:text-white"
                 >
                   Casos reales
