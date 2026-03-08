@@ -77,6 +77,12 @@ export default function Header() {
             )}
           </div>
           <Link
+            href="/productos"
+            className="text-sm font-medium text-stone-700 transition-colors hover:text-stone-900"
+          >
+            Productos
+          </Link>
+          <Link
             href="/como-funciona"
             className="text-sm font-medium text-stone-700 transition-colors hover:text-stone-900"
           >
@@ -101,6 +107,9 @@ export default function Header() {
         <nav className="flex gap-4 md:hidden">
           <Link href="/packs" className="text-sm font-medium text-stone-600">
             Packs
+          </Link>
+          <Link href="/productos" className="text-sm font-medium text-stone-600">
+            Productos
           </Link>
           <Link href="/contacto" className="text-sm font-medium text-stone-600">
             Contacto
