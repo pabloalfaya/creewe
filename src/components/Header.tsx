@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 
 const PACK_CATEGORIES = [
-  { id: "todos", label: "Todos", href: "/packs" },
+  { id: "todos", label: "Todos los packs creados", href: "/packs" },
   { id: "escuela-de-verano", label: "Escuela de verano", href: "/packs?categoria=escuela-de-verano" },
   { id: "guarderia", label: "Guardería", href: "/packs?categoria=guarderia" },
   { id: "campus-deportivo", label: "Campus deportivo", href: "/packs?categoria=campus-deportivo" },
@@ -60,7 +60,7 @@ export default function Header() {
             </Link>
             {isPacksOpen && (
               <div className="absolute left-0 top-full pt-2">
-                <div className="min-w-[200px] rounded-lg border border-stone-200 bg-white py-2 shadow-lg">
+                <div className="min-w-[220px] rounded-lg border border-stone-200 bg-white py-2 shadow-lg">
                   {PACK_CATEGORIES.map((cat) => (
                     <Link
                       key={cat.id}
@@ -72,6 +72,13 @@ export default function Header() {
                       {cat.label}
                     </Link>
                   ))}
+                  <div className="my-1 border-t border-stone-100" />
+                  <Link
+                    href="/crear-mi-pack"
+                    className="block px-4 py-2.5 text-sm font-medium text-blue-600 transition-colors hover:bg-stone-50 hover:text-blue-700"
+                  >
+                    Crear mi pack personalizado
+                  </Link>
                 </div>
               </div>
             )}
@@ -96,7 +103,7 @@ export default function Header() {
           </Link>
         </nav>
         <Link
-          href="/packs"
+          href="/crear-mi-pack"
           className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"
         >
           Crear mi pack
@@ -110,6 +117,9 @@ export default function Header() {
           </Link>
           <Link href="/productos" className="text-sm font-medium text-stone-600">
             Productos
+          </Link>
+          <Link href="/crear-mi-pack" className="text-sm font-medium text-blue-600">
+            Crear mi pack
           </Link>
           <Link href="/contacto" className="text-sm font-medium text-stone-600">
             Contacto

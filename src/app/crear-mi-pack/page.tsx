@@ -1,32 +1,38 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 type Product = {
   id: string;
   name: string;
+  image?: string;
 };
 
 type PackItem = {
   id: string;
   name: string;
   quantity: number;
+  image?: string;
 };
 
 const PRODUCTS: Product[] = [
-  { id: "gorra", name: "Gorra" },
-  { id: "camiseta", name: "Camiseta" },
-  { id: "sudadera", name: "Sudadera" },
-  { id: "mochila", name: "Mochila" },
-  { id: "botella", name: "Botella" },
-  { id: "bloc-notas", name: "Bloc de notas" },
-  { id: "boligrafo", name: "Bolígrafo" },
+  { id: "gorra", name: "Gorra", image: "/gorra.jpg" },
+  { id: "camiseta", name: "Camiseta", image: "/camiseta.jpg" },
+  { id: "mochila", name: "Mochila", image: "/mochila.jpg" },
+  { id: "botella", name: "Botella", image: "/botella.jpg" },
+  { id: "pulsera", name: "Pulsera", image: "/pulsera.jpg" },
+  { id: "toalla", name: "Toalla", image: "/toalla.jpg" },
+  { id: "babi", name: "Babi", image: "/babi.jpg" },
+  { id: "bolsa", name: "Bolsa", image: "/bolsa.jpg" },
+  { id: "cuaderno", name: "Cuaderno", image: "/cuaderno.jpg" },
 ];
 
 export default function CrearMiPackPage() {
   const [items, setItems] = useState<PackItem[]>([]);
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [packsCount, setPacksCount] = useState<number>(1);
+  const [showSummary, setShowSummary] = useState(false);
 
   const handleAdd = (product: Product) => {
     const qty = quantities[product.id] ?? 1;
@@ -35,7 +41,10 @@ export default function CrearMiPackPage() {
     setItems((current) => {
       const existing = current.find((i) => i.id === product.id);
       if (!existing) {
-        return [...current, { id: product.id, name: product.name, quantity: qty }];
+        return [
+          ...current,
+          { id: product.id, name: product.name, quantity: qty, image: product.image },
+        ];
       }
       return current.map((i) =>
         i.id === product.id ? { ...i, quantity: i.quantity + qty } : i,
@@ -54,6 +63,11 @@ export default function CrearMiPackPage() {
 
   const handleRemove = (productId: string) => {
     setItems((current) => current.filter((i) => i.id !== productId));
+  };
+
+  const handleSave = () => {
+    if (items.length === 0) return;
+    setShowSummary(true);
   };
 
   const totalUnitsPerPack = items.reduce((acc, item) => acc + item.quantity, 0);
@@ -80,10 +94,18 @@ export default function CrearMiPackPage() {
                     key={product.id}
                     className="flex items-center justify-between gap-3 rounded-xl bg-white px-3 py-3 shadow-sm ring-1 ring-stone-200"
                   >
-                    <div>
-                      <p className="text-sm font-medium text-stone-900">
-                        {product.name}
-                      </p>
+                    <div className="flex items-center gap-3">
+                      <div className="relative h-12 w-12 overflow-hidden rounded-lg bg-stone-100">
+                        {product.image && (
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-cover"
+                          />
+                        )}
+                      </div>
+                      <p className="text-sm font-medium text-stone-900">{product.name}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <input
@@ -125,9 +147,19 @@ export default function CrearMiPackPage() {
                 {items.map((item) => (
                   <li
                     key={item.id}
-                    className="flex items-center justify-between rounded-xl bg-white px-3 py-2 text-sm shadow-sm ring-1 ring-stone-200"
+                    className="flex items-center justify-between gap-3 rounded-xl bg-white px-3 py-2 text-sm shadow-sm ring-1 ring-stone-200"
                   >
-                    <div>
+                    <div className="flex items-center gap-3">
+                      {item.image && (
+                        <div className="relative h-10 w-10 overflow-hidden rounded-md bg-stone-100">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
                       <p className="font-medium text-stone-900">{item.name}</p>
                       <p className="text-xs text-stone-500">
                         {item.quantity} unidad{item.quantity !== 1 && "es"} por pack
@@ -193,11 +225,78 @@ export default function CrearMiPackPage() {
               type="button"
               className="mt-5 w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-60"
               disabled={items.length === 0}
+              onClick={handleSave}
             >
               Guardar configuración del pack
             </button>
           </section>
         </div>
+
+        {showSummary && (
+          <section className="mx-auto mt-10 max-w-3xl rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 shadow-sm">
+            <h2 className="text-xl font-semibold text-emerald-900">
+              Certificado de resumen del pack
+            </h2>
+            <p className="mt-1 text-sm text-emerald-800">
+              Este es el resumen de lo que llevará cada pack y del total para tu pedido.
+            </p>
+
+            <div className="mt-4 grid gap-6 lg:grid-cols-[2fr,1fr]">
+              <ul className="space-y-3">
+                {items.map((item) => (
+                  <li
+                    key={item.id}
+                    className="flex items-center gap-3 rounded-xl bg-white px-3 py-2 text-sm shadow-sm ring-1 ring-emerald-100"
+                  >
+                    {item.image && (
+                      <div className="relative h-10 w-10 overflow-hidden rounded-md bg-stone-100">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <p className="font-medium text-stone-900">{item.name}</p>
+                      <p className="text-xs text-stone-600">
+                        {item.quantity} unidad{item.quantity !== 1 && "es"} por pack
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="space-y-3 rounded-xl bg-white p-4 shadow-sm ring-1 ring-emerald-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-stone-700">
+                    Nº de packs iguales
+                  </span>
+                  <span className="text-sm font-semibold text-stone-900">
+                    {packsCount}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-stone-700">
+                    Unidades por pack
+                  </span>
+                  <span className="text-sm font-semibold text-stone-900">
+                    {totalUnitsPerPack}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between border-t border-stone-200 pt-3">
+                  <span className="text-sm font-medium text-stone-700">
+                    Unidades totales del pedido
+                  </span>
+                  <span className="text-base font-semibold text-emerald-700">
+                    {totalUnitsAllPacks}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
       </main>
     </div>
   );

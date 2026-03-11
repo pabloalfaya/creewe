@@ -77,6 +77,26 @@ function PacksContent() {
     <div className="min-h-screen bg-white text-stone-900">
       <main className="px-4 pt-28 pb-20 sm:px-6 sm:pt-32 lg:px-8">
         <div className="mx-auto max-w-7xl">
+          <header className="mb-8 flex flex-col justify-between gap-4 sm:items-center sm:flex-row">
+            <div>
+              <h1 className="text-2xl font-bold text-stone-900 sm:text-3xl">
+                Packs ya creados
+              </h1>
+              <p className="mt-1 max-w-xl text-sm text-stone-600">
+                Elige uno de nuestros packs diseñados o crea uno totalmente personalizado.
+              </p>
+            </div>
+            <Link
+              href="/crear-mi-pack"
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+            >
+              Crear mi pack personalizado
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </Link>
+          </header>
+
           {/* Filtros */}
           <div className="flex flex-wrap gap-2 border-b border-stone-200 pb-6">
             {FILTERS.map((filter) => {
