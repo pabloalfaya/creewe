@@ -59,8 +59,8 @@ export default function Home() {
             <div className="relative">
               <div className="relative overflow-hidden rounded-2xl bg-stone-200/50 shadow-lg">
                 <Image
-                  src="/hero.png"
-                  alt="Libros, manzana y lápices de colores - packs personalizados para escuelas"
+                  src="/fotoprincipal.jpg"
+                  alt="Productos promocionales personalizados - packs para escuelas y clubs"
                   width={600}
                   height={450}
                   className="h-auto w-full object-cover"
