@@ -38,7 +38,7 @@ export default function Home() {
 
               <div className="flex flex-wrap gap-4 pt-2">
                 <Link
-                  href="/packs"
+                  href="/crear-mi-pack"
                   className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3.5 text-base font-medium text-white transition-colors hover:bg-blue-700"
                 >
                   Crear mi pack
@@ -119,7 +119,7 @@ export default function Home() {
               <PackCard
                 title="Pack Escuela de Verano"
                 description="Camisetas, mochilas y gorras personalizadas con vuestro logo."
-                image="/pack escuela de verano.jpg"
+                image="/fotoprincipal.jpg"
               />
               <PackCard
                 title="Pack Club Infantil"
@@ -190,7 +190,7 @@ function PackCard({
         <h3 className="text-lg font-semibold text-stone-900">{title}</h3>
         <p className="mt-2 text-sm text-stone-600">{description}</p>
         <Link
-          href="/packs"
+          href="/crear-mi-pack"
           className="mt-4 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"
         >
           Crear mi pack
