@@ -34,41 +34,90 @@ export default function CrearMiPackPage() {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [packsCount, setPacksCount] = useState<number>(1);
   const [showSummary, setShowSummary] = useState(false);
+  const [userData, setUserData] = useState({
+    nombre: "",
+    telefono: "",
+    correo: "",
+    direccion: "",
+  });
 
   const handleExportPDF = () => {
     const pdf = new jsPDF({ format: "a4", unit: "mm" });
-    let y = 25;
+    const pageW = pdf.internal.pageSize.getWidth();
+    const margin = 20;
+    let y = 15;
 
-    pdf.setFontSize(18);
+    // Header azul
+    pdf.setFillColor(37, 99, 235); // blue-600
+    pdf.rect(0, 0, pageW, 35, "F");
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFontSize(22);
     pdf.setFont("helvetica", "bold");
-    pdf.text("Certificado de resumen del pack", 20, y);
+    pdf.text("CREWEE", margin, 18);
+    pdf.setFontSize(14);
+    pdf.setFont("helvetica", "normal");
+    pdf.text("Certificado de resumen del pack", margin, 27);
+    y = 45;
+
+    pdf.setTextColor(51, 65, 85);
+
+    // Datos del cliente (caja con fondo)
+    if (userData.nombre || userData.telefono || userData.correo || userData.direccion) {
+      pdf.setFillColor(241, 245, 249);
+      pdf.rect(margin, y - 3, pageW - margin * 2, 38, "F");
+      pdf.setDrawColor(226, 232, 240);
+      pdf.rect(margin, y - 3, pageW - margin * 2, 38, "S");
+      pdf.setFontSize(11);
+      pdf.setFont("helvetica", "bold");
+      pdf.text("Datos de contacto", margin + 5, y + 6);
+      pdf.setFont("helvetica", "normal");
+      const line1 = [userData.nombre && `Nombre: ${userData.nombre}`, userData.telefono && `Teléfono: ${userData.telefono}`].filter(Boolean).join("  |  ");
+      const line2 = [userData.correo && `Correo: ${userData.correo}`].filter(Boolean).join("");
+      const line3 = [userData.direccion && `Dirección: ${userData.direccion}`].filter(Boolean).join("");
+      if (line1) pdf.text(line1, margin + 5, y + 14);
+      if (line2) pdf.text(line2, margin + 5, y + 21);
+      if (line3) pdf.text(line3, margin + 5, y + 28);
+      y += 42;
+    }
+
+    // Productos
+    pdf.setFontSize(12);
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Productos por pack", margin, y);
     y += 10;
 
-    pdf.setFontSize(11);
+    pdf.setFillColor(236, 253, 245); // emerald-50
+    pdf.rect(margin, y - 5, pageW - margin * 2, 8 + items.length * 8, "F");
     pdf.setFont("helvetica", "normal");
-    pdf.text("Resumen de lo que llevará cada pack y total del pedido.", 20, y);
-    y += 15;
+    pdf.setFontSize(11);
+    items.forEach((item) => {
+      pdf.text(`• ${item.name}: ${item.quantity} unidad${item.quantity !== 1 ? "es" : ""}`, margin + 5, y + 3);
+      y += 8;
+    });
+    y += 12;
 
+    // Totales
     pdf.setFont("helvetica", "bold");
-    pdf.text("Productos por pack:", 20, y);
+    pdf.setFontSize(12);
+    pdf.text("Totales", margin, y);
     y += 8;
 
+    pdf.setFillColor(236, 253, 245);
+    pdf.rect(margin, y - 5, pageW - margin * 2, 32, "F");
     pdf.setFont("helvetica", "normal");
-    items.forEach((item) => {
-      pdf.text(`• ${item.name}: ${item.quantity} unidad${item.quantity !== 1 ? "es" : ""}`, 25, y);
-      y += 7;
-    });
-    y += 10;
-
+    pdf.text(`Nº de packs: ${packsCount}`, margin + 5, y + 5);
+    pdf.text(`Unidades por pack: ${totalUnitsPerPack}`, margin + 5, y + 13);
     pdf.setFont("helvetica", "bold");
-    pdf.text("Totales:", 20, y);
-    y += 7;
+    pdf.setDrawColor(16, 185, 129);
+    pdf.setLineWidth(0.5);
+    pdf.line(margin + 5, y + 18, pageW - margin - 5, y + 18);
+    pdf.text(`Unidades totales del pedido: ${totalUnitsAllPacks}`, margin + 5, y + 26);
+
+    // Footer
+    pdf.setTextColor(148, 163, 184);
+    pdf.setFontSize(9);
     pdf.setFont("helvetica", "normal");
-    pdf.text(`Nº de packs: ${packsCount}`, 25, y);
-    y += 7;
-    pdf.text(`Unidades por pack: ${totalUnitsPerPack}`, 25, y);
-    y += 7;
-    pdf.text(`Unidades totales del pedido: ${totalUnitsAllPacks}`, 25, y);
+    pdf.text("Documento generado en creewe.es — Contacto: hola@crewee.es", margin, 285);
 
     pdf.save("resumen-pack-crewee.pdf");
   };
@@ -170,7 +219,77 @@ export default function CrearMiPackPage() {
             </div>
           </section>
 
-          <section className="w-full max-w-md rounded-2xl border border-stone-200 bg-stone-50/60 p-4 sm:p-6">
+          <section className="w-full max-w-md space-y-6">
+            <div className="rounded-2xl border border-stone-200 bg-stone-50/60 p-4 sm:p-6">
+              <h2 className="text-lg font-semibold text-stone-900">Tus datos</h2>
+              <p className="mt-1 text-xs text-stone-600">
+                Estos datos aparecerán en el PDF del resumen.
+              </p>
+              <div className="mt-4 space-y-3">
+                <div>
+                  <label htmlFor="nombre" className="block text-xs font-medium text-stone-700">
+                    Nombre
+                  </label>
+                  <input
+                    id="nombre"
+                    type="text"
+                    value={userData.nombre}
+                    onChange={(e) =>
+                      setUserData((d) => ({ ...d, nombre: e.target.value }))
+                    }
+                    placeholder="Tu nombre o empresa"
+                    className="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="telefono" className="block text-xs font-medium text-stone-700">
+                    Teléfono
+                  </label>
+                  <input
+                    id="telefono"
+                    type="tel"
+                    value={userData.telefono}
+                    onChange={(e) =>
+                      setUserData((d) => ({ ...d, telefono: e.target.value }))
+                    }
+                    placeholder="600 123 456"
+                    className="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="correo" className="block text-xs font-medium text-stone-700">
+                    Correo electrónico
+                  </label>
+                  <input
+                    id="correo"
+                    type="email"
+                    value={userData.correo}
+                    onChange={(e) =>
+                      setUserData((d) => ({ ...d, correo: e.target.value }))
+                    }
+                    placeholder="correo@ejemplo.es"
+                    className="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="direccion" className="block text-xs font-medium text-stone-700">
+                    Dirección
+                  </label>
+                  <input
+                    id="direccion"
+                    type="text"
+                    value={userData.direccion}
+                    onChange={(e) =>
+                      setUserData((d) => ({ ...d, direccion: e.target.value }))
+                    }
+                    placeholder="Calle, número, CP, ciudad"
+                    className="mt-1 w-full rounded-lg border border-stone-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-stone-200 bg-stone-50/60 p-4 sm:p-6">
             <h2 className="text-lg font-semibold text-stone-900">Contenido del pack</h2>
             <p className="mt-1 text-xs text-stone-600 sm:text-sm">
               Esta lista representa lo que llevará cada pack individual.
@@ -268,6 +387,7 @@ export default function CrearMiPackPage() {
             >
               Guardar configuración del pack
             </button>
+            </div>
           </section>
         </div>
 
