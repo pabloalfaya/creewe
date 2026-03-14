@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useRef } from "react";
-import html2canvas from "html2canvas";
+import { useState } from "react";
 import { jsPDF } from "jspdf";
 
 type Product = {
@@ -35,26 +34,43 @@ export default function CrearMiPackPage() {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [packsCount, setPacksCount] = useState<number>(1);
   const [showSummary, setShowSummary] = useState(false);
-  const summaryRef = useRef<HTMLElement>(null);
 
-  const handleExportPDF = async () => {
-    if (!summaryRef.current) return;
-    try {
-      const canvas = await html2canvas(summaryRef.current, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: "#ecfdf5",
-      });
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({ format: "a4", unit: "mm" });
-      const pdfW = pdf.internal.pageSize.getWidth();
-      const pdfH = (canvas.height * pdfW) / canvas.width;
-      pdf.addImage(imgData, "PNG", 0, 0, pdfW, pdfH);
-      pdf.save("resumen-pack-crewee.pdf");
-    } catch (err) {
-      console.error("Error al generar PDF:", err);
-    }
+  const handleExportPDF = () => {
+    const pdf = new jsPDF({ format: "a4", unit: "mm" });
+    let y = 25;
+
+    pdf.setFontSize(18);
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Certificado de resumen del pack", 20, y);
+    y += 10;
+
+    pdf.setFontSize(11);
+    pdf.setFont("helvetica", "normal");
+    pdf.text("Resumen de lo que llevará cada pack y total del pedido.", 20, y);
+    y += 15;
+
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Productos por pack:", 20, y);
+    y += 8;
+
+    pdf.setFont("helvetica", "normal");
+    items.forEach((item) => {
+      pdf.text(`• ${item.name}: ${item.quantity} unidad${item.quantity !== 1 ? "es" : ""}`, 25, y);
+      y += 7;
+    });
+    y += 10;
+
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Totales:", 20, y);
+    y += 7;
+    pdf.setFont("helvetica", "normal");
+    pdf.text(`Nº de packs: ${packsCount}`, 25, y);
+    y += 7;
+    pdf.text(`Unidades por pack: ${totalUnitsPerPack}`, 25, y);
+    y += 7;
+    pdf.text(`Unidades totales del pedido: ${totalUnitsAllPacks}`, 25, y);
+
+    pdf.save("resumen-pack-crewee.pdf");
   };
 
   const handleAdd = (product: Product) => {
@@ -256,10 +272,7 @@ export default function CrearMiPackPage() {
         </div>
 
         {showSummary && (
-          <section
-            ref={summaryRef}
-            className="mx-auto mt-10 max-w-3xl rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 shadow-sm"
-          >
+          <section className="mx-auto mt-10 max-w-3xl rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 shadow-sm">
             <h2 className="text-xl font-semibold text-emerald-900">
               Certificado de resumen del pack
             </h2>
