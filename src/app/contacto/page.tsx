@@ -31,86 +31,14 @@ export default function ContactoPage() {
             </p>
           </div>
 
-          {/* Formulario */}
-          <div className="mt-12 overflow-hidden rounded-2xl bg-white p-6 shadow-lg shadow-stone-200/50 sm:p-8 md:p-10">
-            <form className="space-y-6">
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <label
-                    htmlFor="nombre"
-                    className="block text-xs font-semibold uppercase tracking-wider text-stone-600"
-                  >
-                    Nombre completo
-                  </label>
-                  <input
-                    id="nombre"
-                    type="text"
-                    name="nombre"
-                    placeholder="María García"
-                    className="w-full rounded-xl border border-stone-200 bg-stone-50/80 px-4 py-3.5 text-stone-900 placeholder-stone-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label
-                    htmlFor="email"
-                    className="block text-xs font-semibold uppercase tracking-wider text-stone-600"
-                  >
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    placeholder="maria@escuela.es"
-                    className="w-full rounded-xl border border-stone-200 bg-stone-50/80 px-4 py-3.5 text-stone-900 placeholder-stone-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="mensaje"
-                  className="block text-xs font-semibold uppercase tracking-wider text-stone-600"
-                >
-                  Mensaje
-                </label>
-                <textarea
-                  id="mensaje"
-                  name="mensaje"
-                  rows={5}
-                  placeholder="Cuéntanos sobre tu proyecto, número de participantes o el tipo de pack que necesitas..."
-                  className="w-full resize-none rounded-xl border border-stone-200 bg-stone-50/80 px-4 py-3.5 text-stone-900 placeholder-stone-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-4 text-base font-semibold text-white shadow-md shadow-blue-600/25 transition-colors hover:bg-blue-700 sm:w-auto sm:px-8"
-              >
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                  />
-                </svg>
-                Enviar mensaje
-              </button>
-            </form>
-          </div>
-
-          {/* Alternativa email */}
-          <div className="mt-10 text-center">
-            <p className="text-sm text-stone-500">¿Prefieres email?</p>
+          {/* Correo de contacto */}
+          <div className="mt-12 overflow-hidden rounded-2xl bg-white p-8 shadow-lg shadow-stone-200/50 sm:p-10 md:p-12">
+            <p className="text-center text-stone-600">
+              Escríbenos a nuestro correo y te responderemos lo antes posible.
+            </p>
             <a
               href="mailto:hola@crewee.es"
-              className="mt-3 inline-flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-6 py-3.5 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-stone-50"
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-stone-200 bg-stone-50/80 px-6 py-4 text-base font-medium text-stone-800 shadow-sm transition-colors hover:bg-stone-100"
             >
               <svg
                 className="h-5 w-5 text-stone-500"
