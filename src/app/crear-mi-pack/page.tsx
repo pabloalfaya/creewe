@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 type Product = {
   id: string;
@@ -33,6 +35,27 @@ export default function CrearMiPackPage() {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [packsCount, setPacksCount] = useState<number>(1);
   const [showSummary, setShowSummary] = useState(false);
+  const summaryRef = useRef<HTMLElement>(null);
+
+  const handleExportPDF = async () => {
+    if (!summaryRef.current) return;
+    try {
+      const canvas = await html2canvas(summaryRef.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ecfdf5",
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ format: "a4", unit: "mm" });
+      const pdfW = pdf.internal.pageSize.getWidth();
+      const pdfH = (canvas.height * pdfW) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pdfW, pdfH);
+      pdf.save("resumen-pack-crewee.pdf");
+    } catch (err) {
+      console.error("Error al generar PDF:", err);
+    }
+  };
 
   const handleAdd = (product: Product) => {
     const qty = quantities[product.id] ?? 1;
@@ -233,7 +256,10 @@ export default function CrearMiPackPage() {
         </div>
 
         {showSummary && (
-          <section className="mx-auto mt-10 max-w-3xl rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 shadow-sm">
+          <section
+            ref={summaryRef}
+            className="mx-auto mt-10 max-w-3xl rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 shadow-sm"
+          >
             <h2 className="text-xl font-semibold text-emerald-900">
               Certificado de resumen del pack
             </h2>
@@ -295,6 +321,27 @@ export default function CrearMiPackPage() {
                 </div>
               </div>
             </div>
+
+            <button
+              type="button"
+              onClick={handleExportPDF}
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-emerald-100 px-4 py-3 text-sm font-medium text-emerald-800 transition-colors hover:bg-emerald-200"
+            >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              Descargar PDF
+            </button>
           </section>
         )}
       </main>
