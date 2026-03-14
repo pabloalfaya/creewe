@@ -11,7 +11,7 @@ export default function Footer() {
           {/* Brand y contacto */}
           <div className="space-y-6">
             <h3 className="text-xl font-bold uppercase tracking-tight text-white">
-              CREWEE
+              CREEWE
             </h3>
             <p className="text-sm leading-relaxed text-stone-400">
               Especialistas en packs y artículos promocionales personalizados para
@@ -48,7 +48,7 @@ export default function Footer() {
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                hola@crewee.es
+                hola@creewe.es
               </li>
               <li className="flex items-center gap-3">
                 <svg

@@ -34,7 +34,7 @@ export default function Header() {
           href="/"
           className="text-xl font-bold tracking-tight text-blue-600"
         >
-          CREWEE
+          CREEWE
         </Link>
         <nav className="hidden gap-8 md:flex">
           {/* Packs dropdown */}

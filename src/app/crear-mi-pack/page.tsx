@@ -41,7 +41,7 @@ export default function CrearMiPackPage() {
     direccion: "",
   });
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     const pdf = new jsPDF({ format: "a4", unit: "mm" });
     const pageW = pdf.internal.pageSize.getWidth();
     const margin = 20;
@@ -53,7 +53,7 @@ export default function CrearMiPackPage() {
     pdf.setTextColor(255, 255, 255);
     pdf.setFontSize(22);
     pdf.setFont("helvetica", "bold");
-    pdf.text("CREWEE", margin, 18);
+    pdf.text("CREEWE", margin, 18);
     pdf.setFontSize(14);
     pdf.setFont("helvetica", "normal");
     pdf.text("Certificado de resumen del pack", margin, 27);
@@ -117,9 +117,27 @@ export default function CrearMiPackPage() {
     pdf.setTextColor(148, 163, 184);
     pdf.setFontSize(9);
     pdf.setFont("helvetica", "normal");
-    pdf.text("Documento generado en creewe.es — Contacto: hola@crewee.es", margin, 285);
+    pdf.text("Documento generado en creewe.es — Contacto: hola@creewe.es", margin, 285);
 
-    pdf.save("resumen-pack-crewee.pdf");
+    const pdfBase64 = pdf.output("datauristring").split(",")[1];
+    pdf.save("resumen-pack-creewe.pdf");
+
+    try {
+      await fetch("/api/enviar-pack", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pdfBase64,
+          userData,
+          items,
+          packsCount,
+          totalUnitsPerPack,
+          totalUnitsAllPacks,
+        }),
+      });
+    } catch {
+      // La descarga ya funcionó; el envío es en segundo plano
+    }
   };
 
   const handleAdd = (product: Product) => {

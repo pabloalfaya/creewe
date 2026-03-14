@@ -149,10 +149,10 @@ export default function ComoFuncionaPage() {
             <p className="text-stone-600">
               ¿Tienes dudas? Escríbenos a{" "}
               <a
-                href="mailto:hola@crewee.es"
+                href="mailto:hola@creewe.es"
                 className="font-medium text-blue-600 hover:underline"
               >
-                hola@crewee.es
+                hola@creewe.es
               </a>{" "}
               o llámanos al{" "}
               <a

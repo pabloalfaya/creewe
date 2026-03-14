@@ -37,7 +37,7 @@ export default function ContactoPage() {
               Escríbenos a nuestro correo y te responderemos lo antes posible.
             </p>
             <a
-              href="mailto:hola@crewee.es"
+              href="mailto:hola@creewe.es"
               className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-stone-200 bg-stone-50/80 px-6 py-4 text-base font-medium text-stone-800 shadow-sm transition-colors hover:bg-stone-100"
             >
               <svg
@@ -53,7 +53,7 @@ export default function ContactoPage() {
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                 />
               </svg>
-              hola@crewee.es
+              hola@creewe.es
             </a>
           </div>
         </div>
