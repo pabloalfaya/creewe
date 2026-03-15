@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -10,9 +11,13 @@ export default function Footer() {
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand y contacto */}
           <div className="space-y-6">
-            <h3 className="text-xl font-bold uppercase tracking-tight text-white">
-              CREEWE
-            </h3>
+            <Image
+              src="/logocreewe.png"
+              alt="Creewe"
+              width={140}
+              height={44}
+              className="h-8 w-auto object-contain"
+            />
             <p className="text-sm leading-relaxed text-stone-400">
               Especialistas en packs y artículos promocionales personalizados para
               escuelas de verano, guarderías, campus y clubs deportivos infantiles.

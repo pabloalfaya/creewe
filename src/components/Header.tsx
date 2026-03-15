@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
@@ -30,11 +31,15 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-stone-200/60 bg-white/95 backdrop-blur-sm">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          className="text-xl font-bold tracking-tight text-blue-600"
-        >
-          CREEWE
+        <Link href="/" className="relative flex items-center">
+          <Image
+            src="/logocreewe.png"
+            alt="Creewe"
+            width={140}
+            height={44}
+            className="h-10 w-auto object-contain"
+            priority
+          />
         </Link>
         <nav className="hidden gap-8 md:flex">
           {/* Packs dropdown */}
