@@ -225,10 +225,13 @@ function ProductosContent() {
                       {product.price} €/ud
                     </span>
                     <Link
-                      href={`/contacto?producto=${product.id}`}
-                      className="rounded-lg border border-stone-300 bg-stone-50 px-4 py-2.5 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-100"
+                      href="/crear-mi-pack"
+                      className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"
                     >
-                      Añadir
+                      Crear mi pack
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
                     </Link>
                   </div>
                 </div>
