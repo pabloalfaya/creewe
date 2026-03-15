@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import { jsPDF } from "jspdf";
+import { PACK_ITEMS } from "@/lib/packsConfig";
 
 type Product = {
   id: string;
@@ -29,6 +31,7 @@ const PRODUCTS: Product[] = [
 ];
 
 export default function CrearMiPackPage() {
+  const searchParams = useSearchParams();
   const [items, setItems] = useState<PackItem[]>([]);
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [packsCount, setPacksCount] = useState<number>(1);
@@ -39,6 +42,26 @@ export default function CrearMiPackPage() {
     correo: "",
     direccion: "",
   });
+
+  // Si vienes desde un pack ya creado (?pack=id), pre-rellenamos el contenido
+  useEffect(() => {
+    const packId = searchParams.get("pack");
+    if (!packId || !PACK_ITEMS[packId]) return;
+    const config = PACK_ITEMS[packId];
+    const filled = config
+      .map(({ id, quantity }): PackItem | null => {
+        const product = PRODUCTS.find((p) => p.id === id);
+        if (!product) return null;
+        return {
+          id: product.id,
+          name: product.name,
+          quantity,
+          image: product.image,
+        };
+      })
+      .filter((x): x is PackItem => x !== null);
+    if (filled.length) setItems(filled);
+  }, [searchParams]);
 
   const handleExportPDF = async () => {
     const pdf = new jsPDF({ format: "a4", unit: "mm" });

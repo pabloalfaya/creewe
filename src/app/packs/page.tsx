@@ -215,16 +215,10 @@ function PacksContent() {
 
                   <div className="mt-4 flex gap-3">
                     <Link
-                      href={`/packs/${pack.id}`}
-                      className="flex-1 rounded-lg border border-stone-300 px-4 py-2.5 text-center text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50"
+                      href={`/crear-mi-pack?pack=${pack.id}`}
+                      className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"
                     >
-                      Ver pack
-                    </Link>
-                    <Link
-                      href={`/contacto?pack=${pack.id}`}
-                      className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-                    >
-                      Configurar
+                      Usar en Crear mi pack
                       <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                       </svg>
