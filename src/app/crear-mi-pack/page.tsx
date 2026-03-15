@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { jsPDF } from "jspdf";
 import { PACK_ITEMS } from "@/lib/packsConfig";
 
@@ -30,7 +30,7 @@ const PRODUCTS: Product[] = [
   { id: "cuaderno", name: "Cuaderno", image: "/cuaderno.jpg" },
 ];
 
-export default function CrearMiPackPage() {
+function CrearMiPackContent() {
   const searchParams = useSearchParams();
   const [items, setItems] = useState<PackItem[]>([]);
   const [quantities, setQuantities] = useState<Record<string, number>>({});
@@ -522,3 +522,16 @@ export default function CrearMiPackPage() {
   );
 }
 
+export default function CrearMiPackPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-white">
+          <div className="text-stone-500">Cargando...</div>
+        </div>
+      }
+    >
+      <CrearMiPackContent />
+    </Suspense>
+  );
+}
