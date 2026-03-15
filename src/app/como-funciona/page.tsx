@@ -31,7 +31,7 @@ export default function ComoFuncionaPage() {
                   Elige entre nuestras categorías: escuela de verano, guardería,
                   campus deportivo o club infantil. Cada pack incluye productos
                   adaptados a la edad y necesidades de tu grupo. Puedes combinar
-                  camisetas técnicas, mochilas, botellas, babis, gorras y más.
+                  camisetas técnicas, mochilas, botellas, gorras y más.
                 </p>
                 <p className="mt-3 leading-relaxed text-stone-600">
                   Indica el número aproximado de participantes y te mostraremos

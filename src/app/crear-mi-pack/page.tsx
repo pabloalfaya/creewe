@@ -24,7 +24,6 @@ const PRODUCTS: Product[] = [
   { id: "botella", name: "Botella", image: "/botella.jpg" },
   { id: "pulsera", name: "Pulsera", image: "/pulsera.jpg" },
   { id: "toalla", name: "Toalla", image: "/toalla.jpg" },
-  { id: "babi", name: "Babi", image: "/babi.jpg" },
   { id: "bolsa", name: "Bolsa", image: "/bolsa.jpg" },
   { id: "cuaderno", name: "Cuaderno", image: "/cuaderno.jpg" },
 ];

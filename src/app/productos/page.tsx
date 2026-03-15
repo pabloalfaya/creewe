@@ -73,17 +73,6 @@ const PRODUCTS = [
     placeholderColor: "bg-blue-50",
   },
   {
-    id: "babi",
-    title: "Babi",
-    category: "textil",
-    categoryLabel: "Textil",
-    categoryColor: "bg-blue-600",
-    price: "11.9",
-    description: "Babi infantil lavable y personalizable",
-    image: "/babi.jpg",
-    placeholderColor: "bg-rose-50",
-  },
-  {
     id: "bolsa",
     title: "Bolsa",
     category: "bolsas",

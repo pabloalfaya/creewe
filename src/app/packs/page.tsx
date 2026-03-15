@@ -25,7 +25,7 @@ const PACKS = [
     categoryLabel: "Guardería",
     price: "14.9",
     description: "Diseñado especialmente para los más pequeños",
-    items: ["Babi", "Mochila infantil"],
+    items: ["Mochila infantil"],
     minUnits: 15,
     image: "/pack guarderia.jpg",
     imageColor: null,
