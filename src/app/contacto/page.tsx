@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 
 const TEL = "655 737 973";
@@ -8,9 +9,40 @@ const EMAIL = "hola@creewe.es";
 const WHATSAPP_URL = "https://wa.me/34655737973";
 
 export default function ContactoPage() {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    window.location.href = `mailto:${EMAIL}`;
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      nombre: formData.get("nombre"),
+      email: formData.get("email"),
+      telefono: formData.get("telefono"),
+      entidad: formData.get("entidad"),
+      mensaje: formData.get("mensaje"),
+    };
+
+    try {
+      const res = await fetch("/api/contacto", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error("Error al enviar");
+      
+      setSubmitStatus("success");
+      (e.target as HTMLFormElement).reset();
+    } catch (err) {
+      console.error(err);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -136,6 +168,7 @@ export default function ContactoPage() {
                       name="nombre"
                       placeholder="Tu nombre"
                       className="mt-1.5 w-full rounded-lg border border-stone-300 px-4 py-2.5 text-stone-900 placeholder-stone-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      required
                     />
                   </div>
                   <div>
@@ -148,6 +181,7 @@ export default function ContactoPage() {
                       name="email"
                       placeholder="tu@email.com"
                       className="mt-1.5 w-full rounded-lg border border-stone-300 px-4 py-2.5 text-stone-900 placeholder-stone-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      required
                     />
                   </div>
                   <div>
@@ -160,6 +194,7 @@ export default function ContactoPage() {
                       name="telefono"
                       placeholder="600 000 000"
                       className="mt-1.5 w-full rounded-lg border border-stone-300 px-4 py-2.5 text-stone-900 placeholder-stone-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      required
                     />
                   </div>
                   <div>
@@ -189,20 +224,39 @@ export default function ContactoPage() {
                       rows={4}
                       placeholder="¿En qué podemos ayudarte?"
                       className="mt-1.5 w-full resize-none rounded-lg border border-stone-300 px-4 py-2.5 text-stone-900 placeholder-stone-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      required
                     />
                   </div>
                   <button
                     type="submit"
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 sm:w-auto"
+                    disabled={isSubmitting}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 disabled:opacity-60 sm:w-auto"
                   >
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                    </svg>
-                    Enviar mensaje
+                    {isSubmitting ? (
+                      "Enviando..."
+                    ) : (
+                      <>
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                        Enviar mensaje
+                      </>
+                    )}
                   </button>
+                  
+                  {submitStatus === "success" && (
+                    <div className="rounded-lg bg-emerald-50 p-4 text-sm text-emerald-800">
+                      ¡Mensaje enviado con éxito! Te responderemos lo antes posible.
+                    </div>
+                  )}
+                  {submitStatus === "error" && (
+                    <div className="rounded-lg bg-red-50 p-4 text-sm text-red-800">
+                      Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo o escríbenos directamente.
+                    </div>
+                  )}
                 </form>
                 <p className="mt-4 text-xs text-stone-500">
-                  Al enviar se abrirá tu cliente de correo. Si prefieres, escríbenos directamente a{" "}
+                  También puedes escribirnos directamente a{" "}
                   <a href={`mailto:${EMAIL}`} className="font-medium text-blue-600 hover:underline">
                     {EMAIL}
                   </a>
